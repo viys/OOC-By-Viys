@@ -1,22 +1,5 @@
 mainmenu "Kconfig 示例主菜单"
 
-menu "主功能配置"
-
-config APP_VERSION
-    string "应用版本号"
-    default "v1.0.0"
-    help
-      输入你的应用版本，例如 v1.0.0
-
-config ENABLE_FEATURE
-    bool "启用主要功能"
-    default y
-
-config SELECTABLE_FEATURE
-    bool "辅助功能（被 ENABLE_FEATURE 启用）"
-    depends on ENABLE_FEATURE
-    default y
-    
+menu "Animal 配置"
+    source "project/animal/animal.kconfig"
 endmenu
-
-source "project/sub.kconfig"

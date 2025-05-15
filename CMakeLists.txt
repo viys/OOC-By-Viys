@@ -4,7 +4,7 @@ set(KCONFIG_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
 set(MERGE_CONFIG "${CMAKE_SOURCE_DIR}/scripts/kconfig/merge_config.py")
 set(KCONFIG_CONFIG_H "my_config.h")
 
-set (PROJECT_NAME "tamplate")
+set (PROJECT_NAME "oopc")
 project(${PROJECT_NAME})
 
 set(CMAKE_C_STANDARD 99)
@@ -18,6 +18,12 @@ add_executable(${PROJECT_NAME} ${SOURCES})
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     ${CMAKE_BINARY_DIR}
+)
+
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/project/animal ${CMAKE_BINARY_DIR}/anmial_build)
+
+target_link_libraries(${PROJECT_NAME} PUBLIC
+    animal
 )
 
 target_compile_options(${PROJECT_NAME} PRIVATE
