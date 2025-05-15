@@ -12,8 +12,9 @@
    - [继承（Inheritance）](#继承inheritance)  
    - [多态（Polymorphism）](#多态polymorphism)  
    - [抽象（Abstraction）](#抽象abstraction)  
-4. [运行结果与解释](#运行结果与解释)  
-5. [总结](#总结)
+4. [编译与运行](#编译与运行)  
+5. [运行结果与解释](#运行结果与解释)  
+6. [总结](#总结)
 
 ---
 
@@ -34,10 +35,14 @@
 
 ```text
 oopc/
-├── main.c             // 程序入口，创建和使用对象
-├── animal.c           // 类实现：Animal、Cat、Dog
-├── animal.h           // 类接口声明
-├── my_config.h        // 配置项（通过 Kconfig 生成）
+├─ build
+│  └─ my_config.h	// 配置项（通过 Kconfig 生成）
+└─ project
+   ├─ animal
+   │  ├─ animal.c	// 类实现：Animal、Cat、Dog
+   │  └─ animal.h	// 类接口声明
+   └─ app
+      └─ main.c		// 程序入口，创建和使用对象
 ```
 
 ## 四大特性详解
@@ -83,7 +88,7 @@ DOG_CLASS* DOG_CLASS_CTOR(ANIMAL_CLASS_IMPLEMENTS* t);
 this->api.speak = dog_speak;
 ```
 
-从而形成“继承自 Animal，仅重写发声”的类结构。
+形成“继承自 Animal，仅重写发声”的类结构。
 
 ------
 
@@ -101,7 +106,7 @@ static int animal_sound(void* t) {
 }
 ```
 
-无论传入 `cat` 还是 `dog`，都能调用正确的 `speak`。
+无论传入 `cat` 还是 `dog`，都能调用正确的 `speak` 方法。
 
 ------
 
@@ -118,6 +123,76 @@ typedef struct {
 ```
 
 所有类都必须实现该接口，这构成了最基本的行为契约。
+
+------
+
+## 编译与运行
+
+本项目使用 **CMake 构建系统**，并支持通过 `menuconfig` 进行配置。
+
+### 步骤 1：创建构建目录
+
+```bash
+mkdir build
+cd build
+```
+
+### 步骤 2：生成构建系统
+
+#### Windows（使用 MinGW）：
+
+```bash
+cmake -G "MinGW Makefiles" ..
+```
+
+#### Linux：
+
+```bash
+cmake ..
+```
+
+> 💡 请确保已安装 CMake、GCC（或 MinGW）、以及支持 `menuconfig` 的工具（如 kconfig-frontends）。
+
+------
+
+### 步骤 3：菜单配置（可选）
+
+> `kconfig` 使用教程详见 https://github.com/viys/kconfig.git，若不想配置则删除 `#include "my_config.h"` 并对 `CONFIG_ANIMAL_NAME_1` 和 `CONFIG_ANIMAL_NAME_2` 作出定义。也可在 `build` 目录下手动创建如下的 `my_config.h` 文件。
+
+```bash
+make menuconfig
+```
+
+该步骤用于生成配置文件 `my_config.h`，例如设置：
+
+```c
+#define CONFIG_ANIMAL_NAME_1 "cat"
+#define CONFIG_ANIMAL_NAME_2 "dog"
+```
+
+------
+
+### 🏗️ 步骤 4：编译项目
+
+```bash
+make
+```
+
+------
+
+### 🚀 步骤 5：运行程序
+
+#### Windows：
+
+```bash
+oopc.exe
+```
+
+#### Linux / macOS：
+
+```bash
+./oopc
+```
 
 ------
 
@@ -151,6 +226,10 @@ animal dog say: Woof!
 | 多态 | `animal_sound()` 使用统一接口，实际调用因对象而异    |
 | 抽象 | `ANIMAL_CLASS_IMPLEMENTS` 为统一接口，各类实现其行为 |
 
+
+
+
 ------
+
 
 > ✅ 本项目演示了如何用纯 C 模拟 C++/Java 中的类继承结构，是构建模块化、可扩展嵌入式系统的有效实践方式。
