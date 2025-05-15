@@ -1,0 +1,48 @@
+menu "模块配置"
+
+config MODULE_ENABLE
+    bool "启用模块"
+    default n
+
+if MODULE_ENABLE
+
+config MODULE_STRING
+    string "模块字符串参数"
+    default "hello"
+
+config MODULE_INT
+    int "整数参数"
+    default 10
+    range 1 100
+
+config MODULE_HEX
+    hex "十六进制参数"
+    default 0x20
+
+config MODULE_LOG_LEVEL
+    int "日志等级 (0-5)"
+    range 0 5
+    default 3
+
+config MODULE_DEP
+    bool "需要模块主功能"
+    depends on ENABLE_FEATURE
+    default y
+
+choice
+    prompt "模块工作模式"
+    default MODULE_MODE_A
+
+config MODULE_MODE_A
+    bool "模式 A"
+
+config MODULE_MODE_B
+    bool "模式 B"
+
+endchoice
+
+comment "此处为模块说明段，可用于分组说明"
+
+endif # MODULE_ENABLE
+
+endmenu
