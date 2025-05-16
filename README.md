@@ -157,7 +157,7 @@ cmake ..
 
 ### 步骤 3：菜单配置（可选）
 
-> `kconfig` 使用教程详见 https://github.com/viys/kconfig.git，若不想配置则删除 `#include "my_config.h"` 并对 `CONFIG_ANIMAL_NAME_1` 和 `CONFIG_ANIMAL_NAME_2` 作出定义。也可在 `build` 目录下手动创建如下的 `my_config.h` 文件。
+> `kconfig` 使用教程详见 [https://github.com/viys/kconfig.git](https://github.com/viys/kconfig.git)，若不想配置则删除 `#include "my_config.h"` 并对 `CONFIG_ANIMAL_NAME_1` 和 `CONFIG_ANIMAL_NAME_2` 作出定义。也可在 `build` 目录下手动创建如下的 `my_config.h` 文件。
 
 ```bash
 make menuconfig
